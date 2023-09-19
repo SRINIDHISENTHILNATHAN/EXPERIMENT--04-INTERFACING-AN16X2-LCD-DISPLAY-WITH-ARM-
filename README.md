@@ -178,10 +178,10 @@ https://engineeringxpert.com/wp-content/uploads/2022/04/26.png
 # REGISTER NUMBER: 212222230148
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
+  ****************************************************************************
   * @file           : main.c
   * @brief          : Main program body
-  ******************************************************************************
+  ****************************************************************************
   * @attention
   *
   * Copyright (c) 2023 STMicroelectronics.
@@ -191,13 +191,13 @@ https://engineeringxpert.com/wp-content/uploads/2022/04/26.png
   * in the root directory of this software component.
   * If no LICENSE file comes with this software, it is provided AS-IS.
   *
-  ******************************************************************************
+  ****************************************************************************
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include"stdbool.h"
-bool buttonstatus;
+#include "lcd.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -264,6 +264,16 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+   Lcd_PortType ports[] = {GPIOA,GPIOA,GPIOA,GPIOA};
+   Lcd_PinType pins[] = {GPIO_PIN_3,GPIO_PIN_2,GPIO_PIN_1,GPIO_PIN_0};
+   Lcd_HandleTypeDef lcd;
+   lcd = Lcd_create(ports,pins,GPIOB,GPIO_PIN_0,GPIOB,GPIO_PIN_1,LCD_4_BIT_MODE);
+   Lcd_cursor(&lcd, 0,1);
+   Lcd_string(&lcd," AI&DS");
+
+   Lcd_cursor(&lcd, 1,0);
+   Lcd_string(&lcd,"SRINIDHI SENTHIL ");
+
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -272,28 +282,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  buttonstatus=HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0);
-	    if(buttonstatus==0)
-	  {
-	     HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_RESET);
-	  HAL_Delay(200);
-	  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_SET);
-	  HAL_Delay(200);
-	  }
-	  else
-	  {
-	    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_RESET);
-	    HAL_Delay(200);
-	  }
+    /* USER CODE END WHILE */
 
-
-
-
-
-
-
-
-
+    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
@@ -352,22 +343,27 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PA0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PA1 */
-  GPIO_InitStruct.Pin = GPIO_PIN_1;
+  /*Configure GPIO pins : PA0 PA1 PA2 PA3 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PB0 PB1 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
@@ -413,15 +409,16 @@ void assert_failed(uint8_t *file, uint32_t line)
 
 
 ## Output screen shots of proteus  :
- ![image](https://github.com/SRINIDHISENTHILNATHAN/EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM-/assets/121373170/ebb6b8d2-529c-474f-aa85-0c81b48d4bbf)
+![image](https://github.com/SRINIDHISENTHILNATHAN/EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM-/assets/121373170/a52a97c1-0e50-4bdb-8110-a926eccb811e)
 
-![image](https://github.com/SRINIDHISENTHILNATHAN/EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM-/assets/121373170/a94ea885-6043-4b7b-ab3b-0fd8f5db8dc0)
+
+![image](https://github.com/SRINIDHISENTHILNATHAN/EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM-/assets/121373170/4dbae7d1-8cd9-41ce-a577-f4de95b29d59)
+
 
  
  ## CIRCUIT DIAGRAM (EXPORT THE GRAPHICS TO PDF AND ADD THE SCREEN SHOT HERE): 
  
- ![image](https://github.com/SRINIDHISENTHILNATHAN/EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM-/assets/121373170/c54a849e-f8ab-4bee-85bd-1d2735bf4cbe)
-
+![image](https://github.com/SRINIDHISENTHILNATHAN/EXPERIMENT--04-INTERFACING-AN16X2-LCD-DISPLAY-WITH-ARM-/assets/121373170/ef6b2974-8689-4fad-9fb9-6479458f6c7c)
 
 ## Result :
 Interfacing a lcd display with ARM microcontroller are simulated in proteus and the results are verified.
